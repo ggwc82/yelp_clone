@@ -70,7 +70,17 @@ feature "Users can only delete their own reviews" do
       sign_up_and_in('user1@test.com')
       create_restaurant('Pizza Planet')
       create_review('Pizza Planet', 'Mmm...delicious pizza!', '5')
-      expect(page).not_to have_link('Review Pizza Planet')
+      click_link('Delete Pizza Planet Review')
+      expect(page).not_to have_content('Mmm...delicious pizza!')
     end
+    it "can't delete other user's reviews" do
+      sign_up_and_in('user1@test.com')
+      create_restaurant('Pizza Planet')
+      create_review('Pizza Planet', 'Mmm...delicious pizza!', '5')
+      click_link('Sign out')
+      sign_up_and_in('user2@test.com')
+      expect(page).not_to have_link('Delete Pizza Planet Review')
+    end
+
   end
 end

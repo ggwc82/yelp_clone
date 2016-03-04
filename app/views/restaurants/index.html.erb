@@ -17,6 +17,9 @@
       <ul>
         <% restaurant.reviews.each do |review| %>
           <li>
+            <% if current_user == review.user %>
+              <%= link_to "Delete #{restaurant.name} Review", restaurant_review_path(restaurant,review), method: :delete %>
+            <% end %>
             <%= review.thoughts %>, <strong><%= review.rating %></strong>/5
           </li>
         <% end %>
