@@ -63,3 +63,14 @@ feature "Users can only add one review per restaurant" do
     end
   end
 end
+
+feature "Users can only delete their own reviews" do
+  context "whilst logged in" do
+    it "can only delete their own review" do
+      sign_up_and_in('user1@test.com')
+      create_restaurant('Pizza Planet')
+      create_review('Pizza Planet', 'Mmm...delicious pizza!', '5')
+      expect(page).not_to have_link('Review Pizza Planet')
+    end
+  end
+end
